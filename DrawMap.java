@@ -3,9 +3,10 @@ import java.util.*;
 import java.io.*;
 
 public class DrawMap {
-//    private static int numOfPts;         // number of boundary points
-//    private static double[] Xpts, Ypts;  // the points (x[i], y[i])
+//    private static int numOfPts;          // number of boundary points
+//    private static double[] Xpts, Ypts;   // the points (x[i], y[i])
     private static double[] aryLongX, aryLatY;  // the points (x[i], y[i])
+    public static String[] aryStateAbbrev = {"AL","AZ","AR","CA","CO","CT","DE","DC","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AK","HI"};   // the state abbreviations
 
     // The name of the file to open.
       static String fileName = "USA.txt";   //"AL-AZ-MAP.txt";    //"UTAH-NM-MAP.txt";
@@ -28,6 +29,9 @@ public class DrawMap {
         int numberOfUSAregions=scan.nextInt();
      //   int numberOfSubregions=scan.nextInt();
         String stateName;
+        String stateAbbreviation="";
+        String previousStateName="";
+        int stateNumber=0;
         boolean manyStateNames=true;
         String countryName;
         int numberOfSubregions;
@@ -45,6 +49,20 @@ public class DrawMap {
 
       setupMap();     //setupMap() method calls StdDraw.setCanvasSize and draws title 
         
+        //USA-AK-HI----------------------------------------------------
+      String testCountryName="";  //USA-AK-HI--
+      for(int f=0;f<3;f++){  //read in USA-AK-HI
+        if (f==0){fileName = "USA.txt";}
+        else if(f==1){fileName = "AK.txt";}
+        else if(f==2){fileName = "HI.txt";}
+        in = new File(fileName);   //read in USA or State text file
+        scan = new Scanner(in);
+        xmin=scan.nextDouble();
+        ymin=scan.nextDouble();
+        xmax=scan.nextDouble();
+        ymax=scan.nextDouble();
+        numberOfUSAregions=scan.nextInt();
+        //USA-AK-HI----------------------------------------------------
       while(scan.hasNext()){
         stateName=scan.next();
         if (stateName==""){stateName=scan.nextLine();}
@@ -55,7 +73,11 @@ public class DrawMap {
         System.out.println(countryName); //debug show variable on console
         manyStateNames=true;
         while(manyStateNames==true){
-          if (countryName.equals("USA")){
+        if(f==0){testCountryName = "USA";}      //USA-AK-HI-----
+        else if(f==1){testCountryName = "AK";}  //USA-AK-HI-----
+        else if(f==2){testCountryName = "HI";}  //USA-AK-HI-----
+        //USA-AK-HI-----  if (countryName.equals("USA")){
+          if (countryName.equals(testCountryName)){     //USA-AK-HI-----
             System.out.println("Country is USA = "+countryName); //debug show variable on console
             manyStateNames=false;  //set flag to false because country is USA so now ok to leave while loop and continue
           }else{
@@ -80,9 +102,24 @@ public class DrawMap {
         }
 
         System.out.println("finished loading arrays for state="+stateName); //debug show variable on console
-        drawState(aryLongX, aryLatY);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
+      if(f==0){          //USA-AK-HI-----
+        if (stateName.equals(previousStateName)){
+          stateAbbreviation="";
+        }else{
+          previousStateName = stateName;
+          stateAbbreviation=aryStateAbbrev[stateNumber];
+          stateNumber+=1;
+        }  
+        drawState(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
+      }else{          //USA-AK-HI-----
+          stateAbbreviation=testCountryName;  //USA-AK-HI-----
+          drawCounty(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
+          
+      }               //USA-AK-HI-----
+        
+ //USA-AK-HI-----       drawState(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
       }     
-
+      }          //USA-AK-HI----------------------------------------------------
 //      //StdDraw.setPenColor(StdDraw.BLUE);                 //1 Colore version of PenColor method
 //      //StdDraw.setPenColor(int red, int green, int blue); //RGB version of PenColor method
 //           StdDraw.text(0.5, 0.97, "Purple America");        //draw text on the screen at x,y coordinates
@@ -106,7 +143,38 @@ public class DrawMap {
            StdDraw.text(0.5, 0.98, "Purple America");  //draw text on the screen at x,y coordinates
            }
            
-       public static void drawState(double[] aryLongX, double[] aryLatY) {
+       public static void drawCounty(double[] aryLongX, double[] aryLatY, String stateAbbreviation) {
+         double min_x = aryLongX[0];
+         double min_y = aryLatY[0];
+         double max_x = aryLongX[aryLongX.length-1];
+         double max_y = aryLatY[aryLatY.length-1];
+         double Xpos = 0;
+         double Ypos = 0;
+       if(stateAbbreviation.equals("AK")){     
+         StdDraw.setXscale(-180,-10.0);   //max value is much larger so Alaska is drawn below US
+         StdDraw.setYscale( 50.0, 150.0);   //max value is much larger so Alaska is drawn below US 
+         Xpos = -170.00;
+         Ypos =  60.00;
+       }else if(stateAbbreviation.equals("HI")){
+         StdDraw.setXscale(-200.0,-60.0);   //max value is much larger so Hawaii is drawn below US 
+         StdDraw.setYscale( 15.0,50.5);     //max value is much larger so Hawaii is drawn below US 
+         Xpos = -160.00;
+         Ypos =  20.00;
+       }
+         StdDraw.setPenRadius(0.001);        //set pen radius to 0.0 which is 1 pixel and smaller than (0.005 default)
+         StdDraw.setPenColor(250, 100, 100);    //write a getColor method to set RGB based on votes
+         StdDraw.filledPolygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
+         StdDraw.setPenColor(StdDraw.WHITE);   //1 Color version of PenColor method
+         StdDraw.polygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
+
+         drawStateAbbreviation(Xpos, Ypos, stateAbbreviation); //draw state abreviation on state
+       }
+
+       public static void drawState(double[] aryLongX, double[] aryLatY, String stateAbbreviation) {
+         double min_x = aryLongX[0];
+         double min_y = aryLatY[0];
+         double max_x = aryLongX[aryLongX.length-1];
+         double max_y = aryLatY[aryLatY.length-1];
    //      StdDraw.setXscale(-124.731216,-66.980385);   //values from USA.txt file
          StdDraw.setXscale(-125.5,-66.0);   //values from USA.txt file
    //      StdDraw.setYscale( 24.544102, 49.384365);    //values from USA.txt file add to max to leave room for title 
@@ -114,11 +182,44 @@ public class DrawMap {
          StdDraw.setPenRadius(0.001);        //set pen radius to 0.0 which is 1 pixel and smaller than (0.005 default)
          StdDraw.setPenColor(250, 100, 100);    //write a getColor method to set RGB based on votes
          StdDraw.filledPolygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
-         StdDraw.setPenColor(StdDraw.BLACK);   //1 Color version of PenColor method
+         StdDraw.setPenColor(StdDraw.WHITE);   //1 Color version of PenColor method
          StdDraw.polygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
+         for(int i=0;i<aryLongX.length-1;i++){  
+           if (min_x > aryLongX[i]){
+             min_x = aryLongX[i];
+           }
+           if (max_x < aryLongX[i]){
+             max_x = aryLongX[i];
+           }
+           if (min_y > aryLatY[i]){
+             min_y = aryLatY[i];
+           }
+           if (max_y < aryLatY[i]){
+             max_y = aryLatY[i];
+           }
+         }
+         //meanX = meanX/aryLongX.length;
+         //meanY = meanY/aryLongX.length;
+    double Xpos = min_x + (max_x - min_x)/2;
+    double Ypos = min_y + (max_y - min_y)/2;   
+         if(stateAbbreviation.equals("VA")){Xpos += 1.5;}     
+         if(stateAbbreviation.equals("FL")){Xpos += 2;}     
+         if(stateAbbreviation.equals("ID")){Xpos -= 1.5;}     
+         if(stateAbbreviation.equals("KY")){Xpos += 0.75;}     
+         if(stateAbbreviation.equals("LA")){Xpos -= 1.25;}     
+         if(stateAbbreviation.equals("WA")){Xpos += 2;Ypos -= 2;}     
+         if(stateAbbreviation.equals("WI")){Ypos -= 2;}     
+         if(stateAbbreviation.equals("NH")){Ypos -= 1;}     
+         if(stateAbbreviation.equals("MI")){Xpos += 2;Ypos -= 2;}     
+         drawStateAbbreviation(Xpos, Ypos, stateAbbreviation); //draw state abreviation on state
        }
 
-       public static void loadStateXY(int numberOfSubregions, Scanner scan) {
+      public static void drawStateAbbreviation(double meanX, double meanY, String stateAbbreviation) {
+           StdDraw.setPenColor(StdDraw.BLACK);       //1 Color version of PenColor method
+           StdDraw.text(meanX, meanY, stateAbbreviation);  //draw text on the screen at x,y coordinates
+           }
+
+      public static void loadStateXY(int numberOfSubregions, Scanner scan) {
          double[] aryX = new double[numberOfSubregions];
          double[] aryY = new double[numberOfSubregions];
          for(int i=0;i<numberOfSubregions;i++){  
