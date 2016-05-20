@@ -2,7 +2,7 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.util.*;
 import java.io.*;
 
-public class DrawMap {
+public class DrawMap{
 //    private static int numOfPts;          // number of boundary points
 //    private static double[] Xpts, Ypts;   // the points (x[i], y[i])
     private static double[] aryLongX, aryLatY;  // the points (x[i], y[i])
@@ -52,7 +52,7 @@ public class DrawMap {
         //USA-AK-HI----------------------------------------------------
       String testCountryName="";  //USA-AK-HI--
       for(int f=0;f<3;f++){  //read in USA-AK-HI
-        if (f==0){fileName = "USA.txt";}
+        if (f==0){fileName = "USA-county.txt";}  //USA.txt OR USA-county.txt
         else if(f==1){fileName = "AK.txt";}
         else if(f==2){fileName = "HI.txt";}
         in = new File(fileName);   //read in USA or State text file
@@ -74,6 +74,12 @@ public class DrawMap {
         manyStateNames=true;
         while(manyStateNames==true){
         if(f==0){testCountryName = "USA";}      //USA-AK-HI-----
+        if (fileName.equals("USA-county.txt")){testCountryName = countryName;   //}  //first state in USA-county.txt
+          if(countryName.length() > 2 ){testCountryName = "";}  //if length is >2 then it is NOT a state abbreviation
+          if(countryName.equals("of") ){testCountryName = "";}  // counties with 2 letter words
+          if(countryName.equals("Fe") ){testCountryName = "";}  // counties with 2 letter words
+          if(countryName.equals("du") ){testCountryName = "";}  // counties with 2 letter words
+        }
         else if(f==1){testCountryName = "AK";}  //USA-AK-HI-----
         else if(f==2){testCountryName = "HI";}  //USA-AK-HI-----
         //USA-AK-HI-----  if (countryName.equals("USA")){
@@ -106,12 +112,25 @@ public class DrawMap {
         if (stateName.equals(previousStateName)){
           stateAbbreviation="";
         }else{
-          previousStateName = stateName;
-          stateAbbreviation=aryStateAbbrev[stateNumber];
-          stateNumber+=1;
+          if (fileName.equals("USA-county.txt")){  //first state in USA-county.txt
+            if (testCountryName.equals(previousStateName)){   // ("AL")){
+            }else{  
+              previousStateName = testCountryName;
+              stateAbbreviation=aryStateAbbrev[stateNumber];
+              stateNumber+=1;
+            }
+          }else{
+            previousStateName = stateName;
+            stateAbbreviation=aryStateAbbrev[stateNumber];
+            stateNumber+=1;
+          }
         }  
-        drawState(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
-      }else{          //USA-AK-HI-----
+          if (fileName.equals("USA-county.txt")){  // USA-county.txt
+            drawCounty(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
+          }else{  
+            drawState(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
+          } 
+        }else{          //USA-AK-HI-----
           stateAbbreviation=testCountryName;  //USA-AK-HI-----
           drawCounty(aryLongX, aryLatY, stateAbbreviation);     //drawState() method calls StdDraw.filledPolygon() AND StdDraw.polygon() in black for border 
           
@@ -160,6 +179,9 @@ public class DrawMap {
          StdDraw.setYscale( 15.0,50.5);     //max value is much larger so Hawaii is drawn below US 
          Xpos = -160.00;
          Ypos =  20.00;
+       }else{
+        StdDraw.setXscale(-125.5,-66.0);   //values from USA.txt file
+        StdDraw.setYscale( 24.0, 50.5);    //values from USA.txt file add to max to leave room for title 
        }
          StdDraw.setPenRadius(0.001);        //set pen radius to 0.0 which is 1 pixel and smaller than (0.005 default)
          StdDraw.setPenColor(250, 100, 100);    //write a getColor method to set RGB based on votes
