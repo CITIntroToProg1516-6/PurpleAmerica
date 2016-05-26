@@ -17,7 +17,6 @@ public class DrawMapCounties{
       static String fileName = "USA.txt";   //"AL-AZ-MAP.txt";    //"UTAH-NM-MAP.txt";
 
       public static void main(String[] args) throws Exception {
-
        //**  PurpleAmerica  **// 
        //** Read file and store Long, Lat values as X, Y values in arrays  **//
    //   File in = new File ("USA.txt");

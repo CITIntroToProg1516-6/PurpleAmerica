@@ -17,12 +17,14 @@ public class VoteColor {
     public static int r;
     public static int g;
     public static int b;
-public static String getStateColor(String state) throws FileNotFoundException {
 
-    //read USA1960.txt
-    String fileName = "USA1960.txt";
+    public static String getStateColor(String state) throws FileNotFoundException {
+    Scanner scan = new Scanner(System.in);
+    System.out.println("Input year");
+    String year = scan.toString();
+    String fileName = ("USA"+year+".txt");
     File in = new File(fileName);   //read in UT text file
-    Scanner scan = new Scanner(in);
+    
     
     while (scan.hasNext()) {
         String line = scan.next();
