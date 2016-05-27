@@ -13,13 +13,15 @@ import static org.junit.Assert.*;
  * @author cmneville
  */
 public class PoliticalMapTest {
-    
-    public PoliticalMapTest() {
+    public static void main(String[] args){
+        System.out.println("Please"); 
     }
+}
+    
 
     /**
      * Test of main method, of class PoliticalMap.
-     */
+     
     @Test
     public void testMain() {
         System.out.println("main");
@@ -28,6 +30,6 @@ public class PoliticalMapTest {
         assertEquals(1,1);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
-    }
+    }*/
     
-}
+
