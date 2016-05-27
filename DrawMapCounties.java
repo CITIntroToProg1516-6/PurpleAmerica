@@ -9,17 +9,14 @@ public class DrawMapCounties{
     private static double[] aryLongX, aryLatY;  // the points (x[i], y[i])
     public static String[] aryStateAbbrev = {"AL","AZ","AR","CA","CO","CT","DE","DC","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AK","HI"};   // the state abbreviations
     static VoteColor vc = new VoteColor();
-    static int r = vc.r;
-    static int g = vc.g;
-    static int b = vc.b;
     
     // The name of the file to open.
       static String fileName = "USA.txt";   //"AL-AZ-MAP.txt";    //"UTAH-NM-MAP.txt";
-
-      public static void main(String[] args) throws Exception {
+      
+      public static void main(String[] args) throws Exception { 
        //**  PurpleAmerica  **// 
        //** Read file and store Long, Lat values as X, Y values in arrays  **//
-   //   File in = new File ("USA.txt");
+   //   File in = new File ("USA.txt")
       File in = new File(fileName);   //read in UT text file
       Scanner scan = new Scanner(in);
       
@@ -188,7 +185,7 @@ public class DrawMapCounties{
         StdDraw.setYscale( 24.0, 50.5);    //values from USA.txt file add to max to leave room for title 
        }
          StdDraw.setPenRadius(0.001);        //set pen radius to 0.0 which is 1 pixel and smaller than (0.005 default)
-         StdDraw.setPenColor(r, g, b);    //write a getColor method to set RGB based on votes
+         StdDraw.setPenColor(vc.r, vc.g, vc.b);    //write a getColor method to set RGB based on votes
          StdDraw.filledPolygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
          StdDraw.setPenColor(StdDraw.WHITE);   //1 Color version of PenColor method
          StdDraw.polygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
@@ -206,7 +203,7 @@ public class DrawMapCounties{
    //      StdDraw.setYscale( 24.544102, 49.384365);    //values from USA.txt file add to max to leave room for title 
          StdDraw.setYscale( 24.0, 50.5);    //values from USA.txt file add to max to leave room for title 
          StdDraw.setPenRadius(0.001);        //set pen radius to 0.0 which is 1 pixel and smaller than (0.005 default)
-         StdDraw.setPenColor(r, g, b);    //write a getColor method to set RGB based on votes
+         StdDraw.setPenColor(vc.r, vc.g, vc.b);    //write a getColor method to set RGB based on votes
          StdDraw.filledPolygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays
          StdDraw.setPenColor(StdDraw.WHITE);   //1 Color version of PenColor method
          StdDraw.polygon(aryLongX, aryLatY);   //draw polygon using pts stored in arrays

@@ -13,16 +13,13 @@ import java.util.Scanner;
  * @author hcps-vizdosdj
  */
 public class VoteColor {
-    public static String color;
     public static int r;
     public static int g;
     public static int b;
-
-    public static String getStateColor(String state) throws FileNotFoundException {
+    
+    public static void getStateColor(){
     Scanner scan = new Scanner(System.in);
-    System.out.println("Input year");
-    String year = scan.toString();
-    String fileName = ("USA"+year+".txt");
+    String fileName = ("USA2012.txt");
     File in = new File(fileName);   //read in UT text file
     
     
@@ -37,12 +34,7 @@ public class VoteColor {
         r = (repub/(repub+lib+unpledged));
         g = (unpledged/(repub+lib+unpledged));
         b = (lib/(repub+lib+unpledged));
-
-        if (state.equals("stateName")) {
-            break;
-        }
            
     }
-    return color;
 }
 }
