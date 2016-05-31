@@ -360,7 +360,8 @@ public class PoliticalMap {
 
                 StdDraw.text(x, (y-.07), "counties");//Draws the text for counties
                 StdDraw.text(x, (y-.14), "states");//Draws the text for states
-
+                StdDraw.picture((x - 0.0295), (y + 0.14), "src\\data\\LEGEND.jpg"); //Draws the png file of handmade Legend
+                        //Note: Legend PNG was all made in MSPaint by hand
             }//end if
 
             //Draws the buttons for the election years
