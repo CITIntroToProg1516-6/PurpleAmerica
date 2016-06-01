@@ -62,7 +62,7 @@ public class PoliticalMap {
                     StdDraw.text(.8, .97, "Press on a button to return to the normal map.");//Tells the user how to make it multiple
                 }//end else
                 
-                
+                 
                 boolean keepGoing = true;//A variable later used to tell the program whether or not it has another country to construct.
 
                 File file = new File("src\\data\\" + data.newCountyName());//Creates a file of the state about to be drawn.
