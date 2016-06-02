@@ -2,6 +2,7 @@
 Bernalillo,44805,40908,0,
 Catron,671,573,0,
 Chaves,9089,6212,0,
+Cibola,0,0,0,
 Colfax,2316,3187,0,
 Curry,6153,3421,0,
 De Baca,734,619,0,

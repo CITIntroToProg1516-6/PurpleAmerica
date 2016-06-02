@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 public class PoliticalMapTest {
     
     public PoliticalMapTest() {
+        
     }
 
     /**
